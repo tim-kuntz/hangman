@@ -3,13 +3,15 @@ defmodule CpuClient.Prompter do
   alias TextClient.State
 
   def accept_move(game = %State{tally: tally}) do
-    letter_distribution()
+    tally.letters
+    |> letter_distribution()
     |> next_guess(tally.used)
     |> update_game(game)
   end
 
-  defp letter_distribution() do
-    Dictionary.word_list()
+  defp letter_distribution(letters) do
+    letters
+    |> filtered_word_list
     |> Enum.join("")
     |> String.codepoints
     |> Enum.reduce(%{}, fn(letter, acc) ->
@@ -19,6 +21,19 @@ defmodule CpuClient.Prompter do
     |> List.keysort(1)
     |> Enum.map(&(elem(&1,0)))
     |> Enum.reverse
+  end
+
+  defp filtered_word_list(letters) do
+    {:ok, matcher} = matcher(["^" | letters] ++ ["$"])
+    Dictionary.word_list()
+    |> Enum.filter(fn(word) -> word =~ matcher end)
+  end
+
+  defp matcher(letters) do
+    letters
+    |> Enum.join("")
+    |> String.replace("_", ".")
+    |> Regex.compile()
   end
 
   defp next_guess(list = [h | t], used) do
