@@ -1,4 +1,4 @@
-defmodule TextClient.Interact do
+defmodule CpuClient.Simulate do
 
   alias TextClient.{State, Player}
 
@@ -12,8 +12,7 @@ defmodule TextClient.Interact do
     %State {
       game_service: game,
       tally: Hangman.tally(game),
-      prompter: &TextClient.Prompter.accept_move/1
+      prompter: &CpuClient.Prompter.accept_move/1
     }
   end
-
 end
