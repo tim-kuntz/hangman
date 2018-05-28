@@ -25,7 +25,7 @@ defmodule CpuClient.Prompter do
 
   defp filtered_word_list(letters) do
     {:ok, matcher} = matcher(["^" | letters] ++ ["$"])
-    Dictionary.word_list()
+    Dictionary.start()
     |> Enum.filter(fn(word) -> word =~ matcher end)
   end
 
