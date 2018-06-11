@@ -1,0 +1,21 @@
+<%# <div> %>
+<%# Turns left: <%= @tally.turns_left %1> %>
+<%# </div> %>
+
+<div>
+  Word: <%= word(@tally) %>
+</div>
+
+<div>
+  Used: <%= used(@tally) %>
+</div>
+
+<%= if game_over?(@tally) do %>
+  <%= new_game_button(@conn) %>
+<% else %>
+  <%= form_for(@conn, hangman_path(@conn, :make_move), [as: :make_move, method: :put], fn f -> %>
+    <%= text_input(f, :guess, autofocus: true) %>
+    <%= submit("Make next move") %>
+  <% end) %>
+<% end %>
+
