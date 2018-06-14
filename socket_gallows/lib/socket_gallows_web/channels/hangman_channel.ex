@@ -34,7 +34,8 @@ defmodule SocketGallowsWeb.HangmanChannel do
 
   def handle_info({:tick, seconds_left = 0}, socket) do
     push(socket, "countdown", %{seconds: seconds_left})
-    push(socket, "tally", %{ Hangman.tally(socket.assigns.game) | game_state: "lost_time" })
+    tally = socket.assigns.game |> Hangman.timeout()
+    push(socket, "tally", tally)
     {:noreply, socket}
   end
 

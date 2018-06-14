@@ -1,7 +1,7 @@
 const RESPONSES = {
     won:          [ "success", "You Won!" ],
     lost:         [ "danger",  "You Lost!" ],
-    lost_time:    [ "danger",  "You're out of time!" ],
+    lost_timeout: [ "danger",  "You're out of time!" ],
     good_guess:   [ "success", "Good guess!" ],
     bad_guess:    [ "warning", "Bad guess!" ],
     already_used: [ "info",    "You already guessed that" ],

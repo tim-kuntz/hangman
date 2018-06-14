@@ -12,4 +12,8 @@ defmodule Hangman do
   def make_move(game_pid, guess) do
     GenServer.call(game_pid, {:make_move, guess})
   end
+
+  def timeout(game_pid) do
+    GenServer.call(game_pid, {:timeout})
+  end
 end

@@ -31,9 +31,16 @@ defmodule Hangman.Game do
     %{
       game_state: game.game_state,
       turns_left: game.turns_left,
-      letters:    game.letters |> reveal_guessed(game.used),
+      letters:    game |> reveal_guessed(),
       used:       game.used
     }
+  end
+
+  def timeout(game) do
+    game
+    |> Map.put(:game_state, :lost_timeout)
+    |> Map.put(:turns_left, 0)
+    |> tally()
   end
 
   # private functions
@@ -73,7 +80,11 @@ defmodule Hangman.Game do
   defp maybe_won(true), do: :won
   defp maybe_won(_),    do: :good_guess
 
-  defp reveal_guessed(letters, used) do
+  defp reveal_guessed(%{game_state: state, letters: letters}) when state in [:won, :lost, :lost_timeout] do
+    letters
+  end
+
+  defp reveal_guessed(%{letters: letters, used: used}) do
     letters
     |> Enum.map(fn letter ->
       reveal_letter(letter, MapSet.member?(used, letter)) end)

@@ -23,4 +23,8 @@ defmodule Hangman.Server do
   def handle_call({ :tally }, _from, game) do
     { :reply, Game.tally(game), game }
   end
+
+  def handle_call({ :timeout }, _from, game) do
+    { :reply, Game.timeout(game), game }
+  end
 end
